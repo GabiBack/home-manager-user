@@ -1,0 +1,4 @@
+FROM openjdk:8-jdk-alpine
+EXPOSE 8080
+ADD target/home-manager-user-0.0.1-SNAPSHOT.jar home-manager-user-1.0.0.jar
+ENTRYPOINT ["java","-jar","/home-manager-user-1.0.0.jar"]
