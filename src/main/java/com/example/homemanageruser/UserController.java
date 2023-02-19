@@ -1,14 +1,19 @@
 package com.example.homemanageruser;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/user/test")
 public class UserController {
 
-    @PostMapping("/user-name-test/{name}")
-    public void registerUser(@PathVariable String name){
+    @Autowired
+    UserRepository userRepository;
 
+    @PostMapping("/{name}")
+    public void registerUser(@PathVariable String name){
+        User user = new User(name);
+        this.userRepository.save(user);
     }
 }
