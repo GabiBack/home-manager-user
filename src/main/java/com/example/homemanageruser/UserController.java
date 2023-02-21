@@ -13,7 +13,12 @@ public class UserController {
 
     @PostMapping("/{name}")
     public void registerUser(@PathVariable String name){
-        User user = new User(name);
+        UserEntity user = new UserEntity(name);
         this.userRepository.save(user);
+    }
+
+    @GetMapping("/greeting")
+    public String getGreeting(){
+        return "Welcome to our home manager app";
     }
 }

@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  db-home-manager-user:
+    platform: linux/x86_64
+    image: "postgres:13"
+    container_name: db-home-manager-user
+    ports:
+      - 5050:5432
+    environment:
+      POSTGRES_DB: db-home-manager-user
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: mysecretpassword
+
+  api:
+    container_name: home-manager-user
+    image: home-manager-user
+    build: .
+    ports:
+      - 8000:8080
+    depends_on:
+      - db-home-manager-user
+    environment:
+      - SPRING_DATASOURCE_URL=postgresql://db-home-manager-user:5432/db-home-manager-user
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=mysecretpassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=UPDATE

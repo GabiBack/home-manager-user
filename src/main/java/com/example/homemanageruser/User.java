@@ -1,9 +1,5 @@
 package com.example.homemanageruser;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
 public class User {
 
     public User() {
@@ -14,11 +10,8 @@ public class User {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
     public void setId(Long id) {
