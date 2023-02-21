@@ -20,7 +20,8 @@ services:
     depends_on:
       - db-home-manager-user
     environment:
-      - SPRING_DATASOURCE_URL=postgresql://db-home-manager-user:5432/db-home-manager-user
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-home-manager-user:5432/db-home-manager-user
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=mysecretpassword
       - SPRING_JPA_HIBERNATE_DDL_AUTO=UPDATE
+    tty: true

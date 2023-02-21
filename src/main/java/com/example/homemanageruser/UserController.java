@@ -21,4 +21,8 @@ public class UserController {
     public String getGreeting(){
         return "Welcome to our home manager app";
     }
+    @GetMapping("/greeting-testowy")
+    public String getGreetingTest(){
+        return "dupa zbita";
+    }
 }
