@@ -11,6 +11,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: mysecretpassword
 
+
   api:
     container_name: home-manager-user
     image: home-manager-user
@@ -23,5 +24,3 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-home-manager-user:5432/db-home-manager-user
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=mysecretpassword
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=UPDATE
-    tty: true
