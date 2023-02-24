@@ -1,19 +1,17 @@
 package com.example.homemanageruser;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "users")
 @Data
+@Builder
 public class UserEntity {
 
     public UserEntity() {
 
-    }
-
-    public UserEntity(String name) {
-        this.name = name;
     }
 
     @Id
