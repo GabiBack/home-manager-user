@@ -1,4 +1,4 @@
-package com.example.homemanageruser.model;
+package com.example.homemanageruser.model.user;
 
 public class User {
 

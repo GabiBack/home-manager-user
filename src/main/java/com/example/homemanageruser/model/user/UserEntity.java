@@ -1,7 +1,14 @@
-package com.example.homemanageruser.model;
+package com.example.homemanageruser.model.user;
 
+import com.example.homemanageruser.model.authentication.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -11,14 +18,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
-    public UserEntity(String userName, String groupName, String password, String email, Boolean isAdmin) {
+    public UserEntity(String userName, String groupName, String password, String email, Role role) {
         this.userName = userName;
         this.groupName = groupName;
         this.password = password;
         this.email = email;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
     @Id
@@ -37,20 +44,6 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "is_Admin")
-    private Boolean isAdmin;
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + userName + '\'' +
-                ", groupName='" + groupName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", isAdmin=" + isAdmin +
-                '}';
-    }
 
     public Long getId() {
         return id;
@@ -76,10 +69,6 @@ public class UserEntity {
         this.groupName = groupName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -92,16 +81,46 @@ public class UserEntity {
         this.email = email;
     }
 
-    public Boolean getAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
-
     public static UserEntityBuilder builder(){
         return new UserEntityBuilder();
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword(){
+        return this.password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public static class UserEntityBuilder {
@@ -110,7 +129,7 @@ public class UserEntity {
         private String groupName;
         private String password;
         private String email;
-        private Boolean isAdmin;
+        private Role role;
 
         public UserEntityBuilder setUserName(final String userName){
             this.userName = userName;
@@ -132,8 +151,8 @@ public class UserEntity {
             return this;
         }
 
-        public UserEntityBuilder isAdmin(final Boolean isAdmin){
-            this.isAdmin = isAdmin;
+        public UserEntityBuilder setRole(final Role role){
+            this.role = role;
             return this;
         }
 
@@ -143,7 +162,7 @@ public class UserEntity {
                     this.groupName,
                     this.password,
                     this.email,
-                    this.isAdmin);
+                    this.role);
         }
     }
 }

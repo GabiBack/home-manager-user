@@ -1,4 +1,4 @@
-package com.example.homemanageruser.model;
+package com.example.homemanageruser.model.authentication;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +12,4 @@ public class AuthenticationRequest {
     private String email;
     private String password;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

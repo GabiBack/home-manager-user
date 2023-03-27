@@ -1,39 +1,29 @@
 package com.example.homemanageruser.controller;
 
-import com.example.homemanageruser.config.JwtUtils;
-import com.example.homemanageruser.model.AuthenticationRequest;
-import com.example.homemanageruser.service.AuthenticateService;
+import com.example.homemanageruser.model.authentication.AuthenticationRequest;
+import com.example.homemanageruser.model.authentication.AuthenticationResponse;
+import com.example.homemanageruser.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/authenticate")
+@RequestMapping("v1/user/authenticate")
 @RequiredArgsConstructor
-public class AuthenticationController implements HomeManagerUserController{
+public class AuthenticationController {
 
-    private AuthenticationManager authenticationManager;
-    private AuthenticateService authenticateService;
-    private JwtUtils jwtUtils;
+    private final AuthenticationService service;
 
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()));
 
-        final UserDetails userDetails = authenticateService.findUserDetailsByEmail(request.getEmail());
-        if(userDetails != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
-        } else {
-            return ResponseEntity.status(400).body("Cannot authenticate");
-        }
+    @PostMapping
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(service.authenticate(request));
+
     }
 }
