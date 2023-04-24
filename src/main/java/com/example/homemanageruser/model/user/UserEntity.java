@@ -3,9 +3,9 @@ package com.example.homemanageruser.model.user;
 import com.example.homemanageruser.model.authentication.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity implements UserDetails {
+public class UserEntity /*implements UserDetails */{
 
     public UserEntity(String userName, String groupName, String password, String email, Role role) {
         this.userName = userName;
@@ -88,40 +88,40 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword(){
-        return this.password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+//    @Override
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    public String getPassword(){
+//        return this.password;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 
     public static class UserEntityBuilder {
 
@@ -140,11 +140,11 @@ public class UserEntity implements UserDetails {
             this.groupName = groupName;
             return this;
         }
-
-        public UserEntityBuilder setPassword(final String password){
-            this.password = password;
-            return this;
-        }
+//
+//        public UserEntityBuilder setPassword(final String password){
+//            this.password = password;
+//            return this;
+//        }
 
         public UserEntityBuilder setEmail(final String email){
             this.email = email;

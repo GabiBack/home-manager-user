@@ -1,13 +1,13 @@
 package com.example.homemanageruser.controller;
 
+import com.example.homemanageruser.exception.DataNotColpeteException;
+import com.example.homemanageruser.exception.UserAlreadyExistsException;
 import com.example.homemanageruser.model.authentication.AuthenticationResponse;
 import com.example.homemanageruser.model.user.RegisterRequest;
 import com.example.homemanageruser.service.UserService;
 
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,18 +19,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/user")
 public class UserController {
 
-    Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     UserService service;
 
-    //TODO Swagger
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> registerUser(
-            @RequestBody RegisterRequest request) {
-
-        return ResponseEntity.ok(service.register(request));
-    }
+//    //TODO Swagger
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthenticationResponse> registerUser(
+//            @RequestBody RegisterRequest request) throws UserAlreadyExistsException, DataNotColpeteException {
+//
+//        return ResponseEntity.ok(service.register(request));
+//    }
 
     //TODO zapros innych userow do swojej grupy
 
