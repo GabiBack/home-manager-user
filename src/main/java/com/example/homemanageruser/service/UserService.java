@@ -3,27 +3,49 @@ package com.example.homemanageruser.service;
 import com.example.homemanageruser.exception.DataNotColpeteException;
 import com.example.homemanageruser.exception.UserAlreadyExistsException;
 //import com.example.homemanageruser.config.JwtService;
-import com.example.homemanageruser.model.authentication.AuthenticationResponse;
 import com.example.homemanageruser.model.authentication.Role;
 import com.example.homemanageruser.model.user.RegisterRequest;
+import com.example.homemanageruser.model.user.User;
 import com.example.homemanageruser.model.user.UserEntity;
 import com.example.homemanageruser.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
-//    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 //    private final JwtService jwtService;
 
     Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
+    //TODO zaimplementowac mapper z User na UserEntity
+    public UserEntity register(User user){
+        UserEntity userEntity =  UserEntity.builder()
+                .setUserName(user.getUserName())
+                .setGroupName(user.getGroupName())
+                .setEmail(user.getEmail())
+                .setRole(Role.USER)
+                .setPassword(passwordEncoder.encode(user.getPassword()))
+                .build();
+
+        repository.save(userEntity);
+        return userEntity;
+
+    }
 
 //    public AuthenticationResponse register(RegisterRequest request) throws UserAlreadyExistsException, DataNotColpeteException {
 //        this.authenticateRegistrationData(request);
@@ -75,4 +97,11 @@ public class UserService {
                 request.getPassword() != null;
     }
 
+    public String applicationUrl(HttpServletRequest request) {
+        return "http://" +
+                request.getServerName() +
+                ":" +
+                request.getServerPort() +
+                request.getContextPath();
+    }
 }

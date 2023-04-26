@@ -1,12 +1,12 @@
 package com.example.homemanageruser.model.user;
 
 import com.example.homemanageruser.model.authentication.Role;
-import jakarta.persistence.*;
 import lombok.*;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,11 +38,17 @@ public class UserEntity /*implements UserDetails */{
     @Column(name = "group_name")
     private String groupName;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
     private String password;
 
     @Column(name = "email")
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name = "enabled")
+    private boolean enabled = false;
 
 
     public Long getId() {
@@ -84,9 +90,6 @@ public class UserEntity /*implements UserDetails */{
     public static UserEntityBuilder builder(){
         return new UserEntityBuilder();
     }
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -140,11 +143,11 @@ public class UserEntity /*implements UserDetails */{
             this.groupName = groupName;
             return this;
         }
-//
-//        public UserEntityBuilder setPassword(final String password){
-//            this.password = password;
-//            return this;
-//        }
+
+        public UserEntityBuilder setPassword(final String password){
+            this.password = password;
+            return this;
+        }
 
         public UserEntityBuilder setEmail(final String email){
             this.email = email;

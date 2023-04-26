@@ -33,6 +33,16 @@ public class AuthenticationController {
     @PostMapping("/{userId}")
     public void sendUserCredentials(@PathVariable Long userId) {
         messageProducer .sendMessage(userId.toString());
-        LOGGER.info("Message with authenticated userId sent to ActiveMQ");
+        LOGGER.info("Message with authenticated userId sent to Kafka");
+    }
+
+    @GetMapping("/verify-registration")
+    public String verifyRegistration(@RequestParam("token") String token){
+        String result = service.validateVerificationToken(token);
+        if(result.equalsIgnoreCase("valid")) {
+            return "Users verified - success";
+        } else {
+            return "user cannot be verified";
+        }
     }
 }
