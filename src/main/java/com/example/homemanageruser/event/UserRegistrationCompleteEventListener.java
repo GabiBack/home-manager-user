@@ -1,5 +1,6 @@
 package com.example.homemanageruser.event;
 
+import com.example.homemanageruser.defaults.AuthenticationDefaults;
 import com.example.homemanageruser.model.user.UserEntity;
 import com.example.homemanageruser.service.AuthenticationService;
 import org.slf4j.Logger;
@@ -29,8 +30,7 @@ public class UserRegistrationCompleteEventListener implements ApplicationListene
 
     //TODO Implement sending mail by gmail
     private void sendConfirmationEmail(UserRegistrationCompleteEvent event, String token) {
-        String url = event.getApplicationUrl() + "/v1/user/authenticate/verify-registration?token="
-                + token;
-        LOGGER.info("Click the link to verify yout account: {}", url);
+        String url = event.getApplicationUrl() + AuthenticationDefaults.TOKEN_VERIFICATION_URL + token;
+        LOGGER.info("Click the link to verify your account: {}", url);
     }
 }

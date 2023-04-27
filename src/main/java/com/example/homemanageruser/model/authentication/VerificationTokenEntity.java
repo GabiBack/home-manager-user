@@ -1,5 +1,6 @@
 package com.example.homemanageruser.model.authentication;
 
+import com.example.homemanageruser.defaults.AuthenticationDefaults;
 import com.example.homemanageruser.model.user.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ import java.util.Date;
 @Table(name = "tokens")
 public class VerificationTokenEntity {
 
-    static final int EXPIRATION_TIME = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,13 +32,13 @@ public class VerificationTokenEntity {
         super();
         this.token = token;
         this.userEntity = userEntity;
-        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
+        this.expirationTime = calculateExpirationDate(AuthenticationDefaults.EXPIRATION_TIME);
     }
 
     public VerificationTokenEntity(String token) {
         super();
         this.token = token;
-        this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
+        this.expirationTime = calculateExpirationDate(AuthenticationDefaults.EXPIRATION_TIME);
     }
 
     private Date calculateExpirationDate(int expirationTime) {

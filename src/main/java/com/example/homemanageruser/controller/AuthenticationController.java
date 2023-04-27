@@ -20,29 +20,19 @@ public class AuthenticationController {
 
     Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
-
-
-//    @PostMapping
-//    public ResponseEntity<AuthenticationResponse> register(
-//            @RequestBody AuthenticationRequest request
-//    ) {
-//        //TODO po autentykacji przekazac token do innego serwisu
-//        return ResponseEntity.ok(service.authenticate(request));
-//    }
-
-    @PostMapping("/{userId}")
-    public void sendUserCredentials(@PathVariable Long userId) {
-        messageProducer .sendMessage(userId.toString());
-        LOGGER.info("Message with authenticated userId sent to Kafka");
-    }
-
     @GetMapping("/verify-registration")
     public String verifyRegistration(@RequestParam("token") String token){
         String result = service.validateVerificationToken(token);
         if(result.equalsIgnoreCase("valid")) {
             return "Users verified - success";
         } else {
-            return "user cannot be verified";
+            return "User cannot be verified";
         }
+    }
+
+    @PostMapping("/{userId}")
+    public void sendUserCredentials(@PathVariable Long userId) {
+        messageProducer .sendMessage(userId.toString());
+        LOGGER.info("Message with authenticated userId sent to Kafka");
     }
 }

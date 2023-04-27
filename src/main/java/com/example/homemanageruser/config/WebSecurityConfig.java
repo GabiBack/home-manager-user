@@ -13,8 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private static final String[] WHITE_LIST_URLS = {
+            "v1/user/home",
             "v1/user/register",
-            "v1/user/greeting"
+            "v1/user/login",
     };
 
     @Bean
